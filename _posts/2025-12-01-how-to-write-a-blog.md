@@ -10,4 +10,4 @@ typora-root-url: ../
 
 I hope you like it!
 
-![welcome](/images/2025-12-01-how-to-write-a-blog/welcome.jpg)
+![welcome](./images/2025-12-01-how-to-write-a-blog/welcome.jpg)
