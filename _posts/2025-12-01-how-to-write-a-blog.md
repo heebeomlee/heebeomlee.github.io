@@ -10,7 +10,4 @@ typora-root-url: ../
 
 I hope you like it!
 
-![istockphoto-816807384-612x612](/images/2025-12-01-how-to-write-a-blog/istockphoto-816807384-612x612.jpg)
-
-
-
+![welcome](/images/2025-12-01-how-to-write-a-blog/welcome.jpg)
