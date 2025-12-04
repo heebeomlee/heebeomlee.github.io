@@ -48,7 +48,7 @@ title:  "MCU(Micro Controller Unit) 기초개념"
 ### IDE 개요
 * 코딩 → 빌드 → 다운로드/디버깅 전체 MCU 개발 과정을 하나의 프로그램에서 수행할 수 있도록 구성된 개발 환경을 **IDE (Integrated Development Environment-통합 개발 환경)** 라고 함
 * IDE에는 코드 에디터, 컴파일러, 디버깅 SW가 모두 포함되며 보통 MCU 제조사에서 무료로 제공 (디버거는 별도 구매 필요, 주로 MCU 제조사에서 사용할 수 있는 디버거를 함께 판매)  
-* 대표적인 MCU 제조사-IDE 이름-(대표 MCU 예시) : **Microchip-Microchip Studio-(ATmega128), ST-STM32 Cube IDE-(STM32|4s5vit6), TI-Code Composer Studio(CCS)-(TMS320F280039C), Infineon-Aurix Development Studio, NXP-MUCXpresso**   
+* 대표적인 MCU 제조사-IDE 이름-(대표 MCU 예시) : **Microchip-Microchip Studio-(ATmega128), ST-STM32 Cube IDE-(STM32\|4s5vit6), TI-Code Composer Studio(CCS)-(TMS320F280039C), Infineon-Aurix Development Studio, NXP-MUCXpresso**   
 
 * IDE 실습 Tip
     * IDE에서 신규 프로젝트 생성 시 개발 Target MCU 지정 가능  
@@ -63,7 +63,7 @@ title:  "MCU(Micro Controller Unit) 기초개념"
     * **디버깅**시 **Start/일지 정지/Stop**, **변수값 확인**(디버거에 따라 실시간 로깅 가능), **변수값 변경**, **Break Point** 등의 작업 가능
 
 ### 메모리 개념
-**메모리** : 데이터를 저장할 수 있는 기억장치로 크게 2가지로 분류
+* **메모리** : 데이터를 저장할 수 있는 기억장치로 크게 2가지로 분류
 1. **ROM**  
     * 하드디스크, SSD, **Flash** 등 해당
     * 전원 Off해도 데이터가 지워지지 않음
@@ -75,11 +75,11 @@ title:  "MCU(Micro Controller Unit) 기초개념"
     * 값을 읽고 쓰는 절차가 ROM에 비해 빠름  
     → 기계어 명령어 한줄로 가능 (예: RAM에 값 5를 써라, RAM에서 값을 읽어와라)  
 
-**메모리 용량**  
+* ***메모리 용량**  
 → 얼마나 많은 데이터를 저장할 수 있는지 나타내는 지표 (단위 : Byte)  
 → 1024Byte = 1KB, 1024KB = 1MB, 1024MB = 1GB, 1024GB = 1TB  
 
-**메모리 주소**   
+* **메모리 주소**   
 → MCU 동작시 어떤 **메모리 주소(위치)**에 접근하여 데이터를 읽고 쓸지 정의 필요  
 → 메모리는 바이트 단위로 **고유한** 주소가 할당되며, 이 주소 정보는 MCU 제조사가 정의하여 Data Sheet(**Memory Map**) 에 명시  
 → 정의되지 않은(할당되지 않은) 영역은 **Reserved Memory**로 분류되며, CPU가 이 영역에 접근하면 에러 또는 비정상 동작이 발생할 수 있음. (예: 포인터로 잘못된 주소 접근, 컴파일러 설정 오류 등)  
