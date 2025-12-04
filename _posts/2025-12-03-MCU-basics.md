@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "MCU(Micro Controller Unit) 기초개념"
+title:  "MCU(Micro Controller Unit) 기초개념 (작성中)"
 ---
 
 ### MCU 개요
@@ -68,14 +68,14 @@ title:  "MCU(Micro Controller Unit) 기초개념"
     * 하드디스크, SSD, **Flash** 등 해당
     * 전원 Off해도 데이터가 지워지지 않음
     * 값을 읽고 쓰는 절차가 RAM에 비해 복잡하고 느림  
-    → 중간에 Flash Controller가 있어 레지스터에 적절한 값을 적절한 순서로 써야 Flash에 값을 쓰고 읽기 가능
+    → 중간에 Flash Controller가 있어 레지스터에 적절한 값을 적절한 순서로 써야 Flash에 값을 쓰고 읽기 가능  
 2. **RAM**  
     * SRAM, DRAM, 등 해당
     * 전원 Off하면 데이터 초기화
     * 값을 읽고 쓰는 절차가 ROM에 비해 빠름  
     → 기계어 명령어 한줄로 가능 (예: RAM에 값 5를 써라, RAM에서 값을 읽어와라)  
 
-* ***메모리 용량**  
+* **메모리 용량**  
 → 얼마나 많은 데이터를 저장할 수 있는지 나타내는 지표 (단위 : Byte)  
 → 1024Byte = 1KB, 1024KB = 1MB, 1024MB = 1GB, 1024GB = 1TB  
 
