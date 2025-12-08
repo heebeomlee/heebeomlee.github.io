@@ -151,7 +151,7 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
     <img src="../images/2025-12-04-CAN-Basics-Part1/image 9.png" style="width:60%;" />
 </div>
 
-* 메시지 전송 시, 송신자가 수신자로부터 (1 bit time 이내) 확인 응답(ACK)을 받아야 하므로, 신호의 왕복 시간이 중요  
+* 메시지 전송 시, 송신자가 수신자로부터 (1 bit time 이내) 확인 응답(ACK)을 받아야 하므로, 신호의 왕복 시간이 중요 (bit time은 baudrate과 관련 있음)  
 → 통신속도가 너무 빠르면 신호 왕복이 완료되기 전에 송신자가 다음 작업을 시작해 문제 발생
 
 ### 샘플링 포인트 Sampling Point & Synchronization
@@ -160,31 +160,29 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
 * 샘플링 포인트는 Baud Rate와 함께 OEM이 정의하며, 이를 소프트웨어 구현 시 반영해야 함
 * CAN Simulation 장비 사용 시 Baud Rate과 함께 Sampling Point도 셋팅해서 사용해야 함
 * CAN에서 **1bit**를 **Sync, TSEG1, TSEG2** 3개의 구간으로 분류 (**길이를 세는 단위: Time Quanta, TQ**)
-* **Time Quanta**는 CAN 컨트롤러의 **클럭 주파수에 의해 정의되는 시간 단위**
+* **Time Quanta**는 CAN 컨트롤러의 **클럭 주파수(Hz)에 의해 정의되는 시간 단위**
     - 1비트는 여러 Time Quanta로 구성되며, 이를  통해 Sync, TSEG1, TSEG2의 길이 설정
     - 예: CAN 클럭 주파수가 100Hz라면, 타임컨터는 1/100초(0.01초)
     - Baud Rate이 1bps의 경우, 1bit가 1초 이며, 이때 CAN 컨트롤러의 클럭 주파수가 10Hz의 경우, 1bit가 10 Time Quanta로 이루어짐
     <br>
     <div style="text-align:center;">
-        <img src="../images/2025-12-04-CAN-Basics-Part1/image 10.png" style="width:50%;" />
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image 10.png" style="width:55%;" />
     </div>
 
     1. **Sync Segment (싱크 구간)**: 시작 구간, 항상 고정된 길이(1 Time Quanta)
     2. **TSEG1 (Time Segment 1)**: 샘플링 포인트 이전의 구간
+        - TSEG1은 Propagation Time과 Phase Segment 1로 구성
     3. **TSEG2 (Time Segment 2)**: 샘플링 포인트 이후의 구간
-    - Propagation Time과 Phase Segment 1로 구성.
-    - 샘플링 포인트는 TSEG1과 TSEG2의 비율로 결정
-    - 예: 샘플링 포인트가 70%라면 TSEG1:TSEG2 비율은 7:3으로 설정
-* 공급되는 클락의 속도가 오차 있을 때(Sync Segment 일치 여부로 판단), **TSEG1, TSEG2의 bit 길이를 조절**하여 메시지 송,수신 간 CAN Controller의 CAN 클럭 **싱크를 맞춤**
-    - 길이 조절의 최대양(**SJW: Synchronization Jump Width**)은 OEM이 정해 놓는 경우가 많음  
+        - 샘플링 포인트는 TSEG1과 TSEG2의 비율로 결정
+        - 예: 샘플링 포인트가 70%라면 TSEG1:TSEG2 비율은 7:3으로 설정
+    * 서로 다른 제어기의 CAN Controller에서 공급되는 클락의 속도가 오차 있을 때 (Sync Segment 일치 여부로 판단), **TSEG1, TSEG2의 bit 길이를 조절**하여 메시지 송,수신 간 CAN Controller의 CAN 클럭 **싱크를 맞춤**  
+    → 길이 조절의 최대양(**SJW: Synchronization Jump Width**)은 OEM이 정해 놓는 경우가 많음  
 
 <div style="text-align:center;">
-    <img src="../images/2025-12-04-CAN-Basics-Part1/image 11.png" style="width:65%;" />
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 11.png" style="width:70%;" />
 </div>
-
-<br>
 <div style="text-align:center;">
-    <img src="../images/2025-12-04-CAN-Basics-Part1/image 12.png" style="width:65%;" />
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 12.png" style="width:70%;" />
 </div>
 
 ---
@@ -206,8 +204,7 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
 * 하나의 제어기에서 다양한 메시지 ID를 보내기도 하지만, 특정한 ID의 메세지는 **그 네트워크 안에서** **하나**의 제어기만 송신해야 함
 * 하나의 자동차 안에는 여러 CAN 네트워크가 존재할 수 있으며, 각 네트워크에는 서로 다른 **CAN 데이터베이스**가 존재할 수 있음 (`0x123` ID가 BMS의 메시지로 정의되지만, 다른 네트워크에서는 같은 ID가 다른 메시지를 나타낼 수도 있음)
 * 이는 기술적인 제약이 아니라 **약속**으로 엔진 제어기가 소프트웨어 구현에 따라 `0x123` ID를 사용하여 메시지를 보낼 수도 있지만 충돌을 피하기 위해서는 각 제어기 간의 약속을 잘 지켜야 함
-* **CAN 메시지의 ID**는 길이에 따라 두 가지 포맷으로 구분됨 
-(하나의 네트워크에서 두 가지 포맷 혼용 가능)
+* **CAN 메시지의 ID**는 길이에 따라 두 가지 포맷으로 구분되며 CAN 메세지의 **Arbitration Field**에 해당 정보가 담김 (하나의 네트워크에서 Standard, Extended 두 가지 포맷 혼용 가능)
     - **Standard Format** : 11비트
     - **Extended Format** : 29비트
 
@@ -229,7 +226,7 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
         <img src="../images/2025-12-04-CAN-Basics-Part1/image 15.png" style="width:70%;" />
     </div>
 
-    - *CAN Controller는 자신이 신호를 보낸 후 Bus에 있는 신호를 읽어 실제로 보낸 신호가 인가 되었는지 확인. 이때 1(Recessive)을 보냈는데 Bus에 0(Dominent) 이 있다는 것을 인지하면 송신 대기, 0(Dominent)가 보내지면 1(Recessive) 가 덮어쓰기 되는 느낌? (0의 우선순위가 더 높음)*
+    - *CAN Controller는 자신이 신호를 보낸 후 Bus에 있는 신호를 읽어 실제로 보낸 신호가 인가 되었는지 확인. 이때 1(Recessive)을 보냈는데 Bus에 0(Dominent) 이 있다는 것을 인지하면 송신 대기, (0의 우선순위가 더 높음). 단, **이미 버스에 특정 메세지가 통신되고 있는 경우**에는 우선 순위가 높다고 대신 송신되지 않음*
         
 
 ### 버스 로드 (Bus Load)
@@ -244,18 +241,18 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
 * **메시지**: CAN 통신에서는 **데이터를 주고 받는 단위**로 고유한 아이디(ID)가 있음
 * **시그널**: **메시지 안에 포함된** **실제 정보를 나타내는 단위**  
 → 배터리 상태 메시지(ID: 0x123)에 배터리 전압(5V), 용량(300W), 허용 전류(10A) 시그널 존재
-* CAN 메시지는 **최대 8바이트의 데이터**를 담을 수 있으며, **<span style="color:red;">Data영역</span>** 에 시그널의 정보가 담김
-* **DLC(Data Length Code)** 는 데이터의 길이를 나타내며, 메시지 안에서 실제로 데이터를 몇 바이트를 보낼 것인지 표시, **<span style="color:green;">Control영역</span>** 에 정보 담김 → 데이터가 8바이트이면 DLC 값은 8로 설정 
-(DL0 DL1 DL2 DL3  = 0 1 0 0)
+* **Classic CAN 메시지**는 **최대 8바이트의 데이터**를 담을 수 있으며 (**CAN FD의 경우 64바이트**), **<span style="color:red;">Data영역</span>** 에 시그널의 정보가 담김
+* **DLC(Data Length Code)** 는 데이터의 길이를 나타내며, 메시지 안에서 포함된 **실제 데이터의 크기(바이트)를 표시**, **<span style="color:green;">Control영역</span>** 에 정보 담김  
+→ 데이터가 8바이트이면 DLC 값은 8로 설정 (DL0 DL1 DL2 DL3  = 0 1 0 0)
 <br>
 <div style="text-align:center;">
     <img src="../images/2025-12-04-CAN-Basics-Part1/image 17.png" style="width:70%;" />
 </div>
 
 * *CAN 메세지를 나타내는 영역 중 Arbitration Field(11) Control(4) CRC(15) 의 숫자 단위는 각각 bit 며 **Data(8)의 8의 단위만 byte*** 
-* 메시지마다 **어떤 시그널**이 들어 있는지, 시그널의 **위치** 및 **길이**는 **CAN DB**에 저장됨
-* 이 정보는 **CAN DB**에 **Start bit**와 **Length** 형태로 기록
-* 예를 들어, 4바이트 (배터리 상태 메시지) **데이터 안에서 각 시그널이 차지하는 비트 범위**는 다음과 같이 정의됨  **(1byte = 8bit)**
+* 메시지마다 **어떤 시그널**이 들어 있는지, 메세지내 시그널의 **위치** 및 **길이**는 **CAN DB**에 저장됨  
+* 이 정보는 **CAN DB**에 **Start bit**와 **Length** 형태로 기록  
+* 예를 들어, 4바이트 (배터리 상태 메시지) **데이터 안에서 각 시그널이 차지하는 비트 범위**는 다음과 같이  정의됨  **(1byte = 8bit)**
     - 배터리 전압: 0부터 6비트까지 (7비트 길이) → Start bit = 0, Length = 7
     - 배터리 전류: 7부터 13비트까지 (7비트 길이) → Start bit = 7, Length = 7
     - 배터리 용량: 14부터 27비트까지 (14비트 길이) → Start bit = 14, Length = 18  
@@ -271,18 +268,18 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
 * **실수형 데이터**를 CAN으로 전송할 때, **부동소수점(실수) 형태 (Float Type = 4byte)** 그대로 보내면 데이터 크기가 커짐 **(CAN 최대 데이터 = 8byte)**, Bus Load 관리를 위해 데이터의 크기를 줄이는 것이 중요  
 → 이를 줄이기 위한 방법으로 **Factor**와 **Offset** 활용
 * Factor는 **데이터의 정밀도**(소수 몇 째 자리까지 표현), Offset은 **음수**를 표현할 때와 관련 있음
-* 예시로, 배터리 전압을 12.4V (실수형) 보내고 싶을 때:
+* 예시로, 배터리 전압을 12.4V (실수형-4byte) 보내고 싶을 때:
     1. Factor : 0.1 , Offset : 0
     2. 12.4에서 Offset을 빼고, Factor로 나누면 124
     3. 124는 실제로 전송되는 값이며, 받는 쪽에서는 이 값에 다시 Factor(0.1)를 곱하고,  Offset(0)을 더하면 원래 값인 12.4V가 복원
     → **4바이트** 대신 7비트(정수)로 실수형 데이터를 표현할 수 있는 장점
 * 하지만, 표현할 수 있는 **값의 범위가 제한** 되므로 Application에 따라 적절한 Factor, Offset 설정 필요 (Float Type의 경우 데이터의 크기는 크지만 표현 범위가 넓음)
 <div style="text-align:center;">
-    <img src="../images/2025-12-04-CAN-Basics-Part1/image 19.png" style="width:70%;" />
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 19.png" style="width:90%;" />
 </div>
 <div style="text-align:center;">
-    <img src="../images/2025-12-04-CAN-Basics-Part1/image 20.png" style="width:70%;" />
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 20.png" style="width:90%;" />
 </div>
 <div style="text-align:center;">
-    <img src="../images/2025-12-04-CAN-Basics-Part1/image 21.png" style="width:70%;" />
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 21.png" style="width:90%;" />
 </div>
