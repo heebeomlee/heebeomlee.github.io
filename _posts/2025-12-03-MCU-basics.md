@@ -65,7 +65,7 @@ title: "MCU(Micro Controller Unit) 기초개념"
 * **메모리** : 데이터를 저장할 수 있는 기억장치로 크게 2가지로 분류
 
 1.  **ROM**  
-* 하드디스크, SSD, **Flash** 등 해당
+* 하드디스크, SSD, **Flash** 등 해당  
 * 전원 Off해도 데이터가 지워지지 않고 남아있음  
 * 값을 읽고 쓰는 절차가 RAM에 비해 복잡하고 느림  
 → 중간에 Flash Controller가 있어 레지스터에 적절한 값을 적절한 순서로 써야 Flash에 값을 쓰고 읽기 가능  
