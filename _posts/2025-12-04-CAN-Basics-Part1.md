@@ -215,7 +215,7 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
     <img src="../images/2025-12-04-CAN-Basics-Part1/image 14.png" style="width:40%;" />
 </div>
 
-* BMS 제어기는 `0x123` ID의 메시지를 보내고, 엔진 제어기는 `0x500` ID의 메시지를 보내는 식으로, 각 제어기마다 고유한 ID를 부여하여 다른 제어기들이 이를 식별할 수 있음. 수신 제어기는 컨셉상 명시 (브로드캐스트로 모든 제어기에서 수신)
+* *BMS 제어기는 `0x123` ID의 메시지를 보내고, 엔진 제어기는 `0x500` ID의 메시지를 보내는 식으로, 각 제어기마다 고유한 ID를 부여하여 다른 제어기들이 이를 식별할 수 있음. 수신 제어기는 컨셉상 명시 (브로드캐스트로 모든 제어기에서 수신)*
 
 ### 메시지 우선 순위
 
@@ -229,7 +229,7 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
         <img src="../images/2025-12-04-CAN-Basics-Part1/image 15.png" style="width:70%;" />
     </div>
 
-    - CAN Controller는 자기가 신호를 보낸 후 Bus에 있는 신호를 읽어 실제로 보낸 신호가 인가 되었는지 확인. 이때 1(Recessive)을 보냈는데 Bus에 0(Dominent) 이 있다는 것을 인지하면 송신 대기, 0(Dominent)가 보내지면 1(Recessive) 가 덮어쓰기 되는 느낌? (0의 우선순위가 더 높음)
+    - *CAN Controller는 자신이 신호를 보낸 후 Bus에 있는 신호를 읽어 실제로 보낸 신호가 인가 되었는지 확인. 이때 1(Recessive)을 보냈는데 Bus에 0(Dominent) 이 있다는 것을 인지하면 송신 대기, 0(Dominent)가 보내지면 1(Recessive) 가 덮어쓰기 되는 느낌? (0의 우선순위가 더 높음)*
         
 
 ### 버스 로드 (Bus Load)
@@ -244,23 +244,26 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
 * **메시지**: CAN 통신에서는 **데이터를 주고 받는 단위**로 고유한 아이디(ID)가 있음
 * **시그널**: **메시지 안에 포함된** **실제 정보를 나타내는 단위**  
 → 배터리 상태 메시지(ID: 0x123)에 배터리 전압(5V), 용량(300W), 허용 전류(10A) 시그널 존재
-* CAN 메시지는 **최대 8바이트의 데이터**를 담을 수 있으며, **Data영역**에 시그널의 정보가 담김
-* **DLC(Data Length Code)** 는 데이터의 길이를 나타내며, 메시지 안에서 실제로 데이터를 몇 바이트를 보낼 것인지 표시, **Control영역**에 정보 담김 → 데이터가 8바이트이면 DLC 값은 8로 설정 
+* CAN 메시지는 **최대 8바이트의 데이터**를 담을 수 있으며, **<span style="color:red;">Data영역</span>** 에 시그널의 정보가 담김
+* **DLC(Data Length Code)** 는 데이터의 길이를 나타내며, 메시지 안에서 실제로 데이터를 몇 바이트를 보낼 것인지 표시, **<span style="color:green;">Control영역</span>** 에 정보 담김 → 데이터가 8바이트이면 DLC 값은 8로 설정 
 (DL0 DL1 DL2 DL3  = 0 1 0 0)
 <br>
 <div style="text-align:center;">
-    <img src="../images/2025-12-04-CAN-Basics-Part1/image 15.png" style="width:70%;" />
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 17.png" style="width:70%;" />
 </div>
-<p align="center"><strong>메세지 ID</strong></p>
 
-* CAN 메세지를 나타내는 영역 중 Arbitration Field(11) Control(4) CRC(15) 의 숫자 단위는 각각 bit 며 **Data(8)의 8의 단위만 byte** 
+* *CAN 메세지를 나타내는 영역 중 Arbitration Field(11) Control(4) CRC(15) 의 숫자 단위는 각각 bit 며 **Data(8)의 8의 단위만 byte*** 
 * 메시지마다 **어떤 시그널**이 들어 있는지, 시그널의 **위치** 및 **길이**는 **CAN DB**에 저장됨
 * 이 정보는 **CAN DB**에 **Start bit**와 **Length** 형태로 기록
 * 예를 들어, 4바이트 (배터리 상태 메시지) **데이터 안에서 각 시그널이 차지하는 비트 범위**는 다음과 같이 정의됨  **(1byte = 8bit)**
     - 배터리 전압: 0부터 6비트까지 (7비트 길이) → Start bit = 0, Length = 7
     - 배터리 전류: 7부터 13비트까지 (7비트 길이) → Start bit = 7, Length = 7
     - 배터리 용량: 14부터 27비트까지 (14비트 길이) → Start bit = 14, Length = 18  
-    - CANdb에 데이터길이(DLC), Start bit, Length, Unit, Signal Comment, Factor, Offset 등 다양한 정보 포함
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image 18.png" style="width:70%;" />
+    </div>
+
+    - *CANdb에 데이터길이(DLC), Start bit, Length, Unit, Signal Comment, Factor, Offset 등 다양한 정보 포함*
         
 
 ### Factor 와 Offset
@@ -274,3 +277,12 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
     3. 124는 실제로 전송되는 값이며, 받는 쪽에서는 이 값에 다시 Factor(0.1)를 곱하고,  Offset(0)을 더하면 원래 값인 12.4V가 복원
     → **4바이트** 대신 7비트(정수)로 실수형 데이터를 표현할 수 있는 장점
 * 하지만, 표현할 수 있는 **값의 범위가 제한** 되므로 Application에 따라 적절한 Factor, Offset 설정 필요 (Float Type의 경우 데이터의 크기는 크지만 표현 범위가 넓음)
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 19.png" style="width:70%;" />
+</div>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 20.png" style="width:70%;" />
+</div>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 21.png" style="width:70%;" />
+</div>
