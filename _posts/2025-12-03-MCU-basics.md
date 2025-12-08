@@ -162,25 +162,25 @@ title: "MCU(Micro Controller Unit) 기초개념"
 <p align="center"><strong>MIPS 레지스터 32가지 (모두 32bit)</strong></p>
 
 <div align="center">
-
+  
 |C언어|어셈블리어|기계어|
 |:---:|:---:|:---:|
 |int a = 3|addi $t0 $0 3|20 08 00 03|
 |int b = 4|addi $t1 $0 4|20 09 00 04|
 |int c = 0|add  $t2 $t0 $t0|00 00 50 20|
 |c = a + b|add  $t2 $t0 $t1|01 09 50 20|
-
+  
 </div>
 
 <p align="center"><b>C언어 · 어셈블리어 · 기계어(16진수) 비교 예시 (MIPS)</b></p>
 
 <div align="center">
-
+  
 |어셈블리어|의미|
 |:---:|:---:|
 |addi $a $b 숫자|$a = $b + 숫자|
 |add  $a $b $c|$a = $b + $c|
-
+  
 </div>
 
 <p align="center"><b>기계어 명령어 (MIPS)</b></p>
