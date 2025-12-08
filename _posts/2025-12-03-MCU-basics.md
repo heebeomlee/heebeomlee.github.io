@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "MCU(Micro Controller Unit) 기초개념"
 ---
 
@@ -151,37 +151,36 @@ title: "MCU(Micro Controller Unit) 기초개념"
     * C언어 → 빌드 → 어셈블리어(기계어) → Fetch(명령어를 CPU가 한 줄씩 읽는 과정) → CPU 실행 순서로 동작
     * **레지스터**란 **CPU 내부에 존재하는 작은 크기의 메모리**로, 패리퍼럴 레지스터과는 성격이 다름
     → CPU가 직접 접근하며 가장 빠르게 읽고 쓸 수 있는 저장장치로, 외부 메모리인 RAM 및 Flash 처럼 메모리 주소를 가지지 않고 **각 레지스터마다 고유 번호**를 가짐
+    * CPU마다 레지스터의 수와 크기가 다르며 보통 8bit / 16bit / 32bit 형태로 구성됨.  
+    →  ex. MIPS는 32bit 레지스터 32개 보유
+    * 어셈블리어는 사람이 읽기 쉽게 표현한 형태일 뿐, 실제 MCU의 Flash에는 이를 숫자로 변환한 기계어만 저장됨. 결국 어셈블리어와 기계어는 동일한 동작을 표현하는 서로 다른 표현 방식
+    * **MIPS 아키텍처 ($표시 있으면 레지스터를 의미)**
     <br>
     <div style="text-align:center;">
         <img src="../images/2025-12-03-MCU-Basics/2025-12-07-15-22-42.png" style="width:50%;" />
     </div>
     <p align="center"><strong>MIPS 레지스터 32가지 (모두 32bit) </strong></p>
 
-    * CPU마다 레지스터의 수와 크기가 다르며 보통 8bit / 16bit / 32bit 형태로 구성됨.  
-    →  ex. MIPS는 32bit 레지스터 32개 보유
-    * 어셈블리어는 사람이 읽기 쉽게 표현한 형태일 뿐, 실제 MCU의 Flash에는 이를 숫자로 변환한 기계어만 저장됨. 결국 어셈블리어와 기계어는 동일한 동작을 표현하는 서로 다른 표현 방식
+    <div align="center">
 
-    * **예시 ($표시 있으면 레지스터를 의미)**
+    |C언어|어셈블리어|기계어|
+    |:---:|:---:|:---:|
+    |int a = 3|addi $t0 $0 3|20 08 00 03|
+    |int b = 4|addi $t1 $0 4|20 09 00 04|
+    |int c = 0|add  $t2 $t0 $t0|00 00 50 20|
+    |c = a + b|add  $t2 $t0 $t1|01 09 50 20|
 
-<div align="center">
+    <p align="center"><b> C언어 · 어셈블리어 · 기계어(16진수) 비교 예시 (MIPS) </b></p>
 
-|C언어|어셈블리어|기계어|
-|:---:|:---:|:---:|
-|int a = 3|addi $t0 $0 3|20 08 00 03|
-|int b = 4|addi $t1 $0 4|20 09 00 04|
-|int c = 0|add  $t2 $t0 $t0|00 00 50 20|
-|c = a + b|add  $t2 $t0 $t1|01 09 50 20|
-<p align="center"><b> C언어 · 어셈블리어 · 기계어(16진수) 비교 예시 (MIPS) </b></p>
+    |어셈블리어|의미|
+    |:---:|:---:|
+    |addi $a $b 숫자|$a = $b + 숫자|
+    |add  $a $b $c|$a = $b + $c|
+    |:|:|
 
-|어셈블리어|의미|
-|:---:|:---:|
-|addi $a $b 숫자|$a = $b + 숫자|
-|add  $a $b $c|$a = $b + $c|
-|:|:|
-<p align="center"><b> 기계어 명령어 (MIPS) </b></p>
+    <p align="center"><b> 기계어 명령어 (MIPS) </b></p>
 
-</div>
-
+    </div>
 
 * **HEX / ELF 파일 개념** 
     * C코드를 빌드하면 .hex, .elf 파일이 생성되며, MCU가 실제로 실행할 **기계어 코드**가 포함됨
