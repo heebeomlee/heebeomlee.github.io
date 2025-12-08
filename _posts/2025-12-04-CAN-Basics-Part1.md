@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "CAN(Controller Area Network) 기초개념 PART1"
 ---
 

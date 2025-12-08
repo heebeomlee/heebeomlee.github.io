@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "MCU(Micro Controller Unit) 기초개념"
 ---
 
