@@ -1,12 +1,12 @@
 ---
-layout: single
-title: "CAN(Controller Area Network) 기초개념"
+layout: post
+title: "CAN(Controller Area Network) 기초개념 PART1"
 ---
 
 ### CAN(Controller Area Network) 통신 등장 배경 및 특징
 
 * 통신이란 서로 다른 두 주체가 정보를 주고받는 것을 의미  
-→ 무선통신을 제외하면 전선(매체)을 통해 전기적 신호를 주고받아 통신 수행
+→ 무선통신을 제외하면 전선(통신매체)을 통해 전기적 신호를 주고받아 통신 수행
 
 * **등장 배경**
     1. 제어기가 추가될수록 필요한 전선의 수가 급격히 증가하여 복잡성 증가
@@ -14,15 +14,26 @@ title: "CAN(Controller Area Network) 기초개념"
     3. 전선이 많아지면 관리와 유지보수가 어려워지며, 특정 전선의 연결을 찾기 어려움
     4. 제어기(MCU)에 연결 가능한 핀 수에 한계가 있어, 개발 확장성에 제한
     5. 제어기가 추가되면 소프트웨어도 수정이 필요하여 개발 과정이 복잡해짐
-    
+    <br>
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image.png" style="width:35%;" />
+    </div>
+    <p align="center"><strong>CAN 등장 배경</strong></p>
+
     → BOSCH에서 차량 제어기 간 통신 목적에 특화된 프로토콜 개발  
     → 이러한 문제를 해결하기 위해 CAN 통신은 다음과 같은 특징을 가짐
     
 * **CAN 통신의 특징**
     * **버스형 토폴로지**
-        - 각 제어기를 1대1로 연결하지 않고, **공통선(버스)**을 사용하여 제어기를 연결
+        - 각 제어기를 1대1로 연결하지 않고, **공통선(버스)** 을 사용하여 제어기를 연결
         - 제어기를 추가하거나 제거하는 것이 간단해지고, 전선의 양이 크게 줄어듦
         - 전선의 무게가 감소하여 연비 향상
+        <br>
+        <div style="text-align:center;">
+            <img src="../images/2025-12-04-CAN-Basics-Part1/image 1.png" style="width:35%;" />
+        </div>
+        <p align="center"><strong>버스형 토폴로지</strong></p>
+    
     * **브로드캐스트 방식**
         - 메시지를 보내면 네트워크에 연결된 **모든 제어기에 전달**
         - 메시지의 목적지를 특정하지 않으므로, 추가된 제어기가 정보를 요청하거나 소프트웨어를 수정할 필요 없이 바로 사용할 수 있음
@@ -35,12 +46,23 @@ title: "CAN(Controller Area Network) 기초개념"
 ### CAN 커넥터
 
 * CAN 통신은 **두 가닥의 전선, 신호 (CAN HIGH, CAN LOW)** 사용
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 2.png" style="width:35%;" />
+</div>
+<p align="center"><strong>CAN HIGH, LOW</strong></p>
+
 * 전기 신호를 주고받기 위해 **D-Sub 커넥터**를 사용하여 제어기와 버스 통일 및 연결
     - D 모양의 커넥터로 **9개의 핀**이 있음
     - 핀 번호는 아래와 같이 표준화 되어 있음
         - **CAN LOW**: **2번** 핀
         - **CAN HIGH**: **7번** 핀
     - 제어기와 버스에 같은 D-Sub 커넥터를 사용하고, 핀 번호를 통일하면 손쉽게 연결 가능
+    <br>
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image 3.png" style="width:50%;" />
+    </div>
+    <p align="center"><strong>D-Sub 커넥터</strong></p>
 
 
 ### 120옴 저항
@@ -58,10 +80,15 @@ title: "CAN(Controller Area Network) 기초개념"
 * **전압 차이에 따른 데이터 해석**
     - CAN HIGH - CAN LOW 값이 **0.9~5V** 사이 → 데이터 **0** (Dominant)
     - CAN HIGH - CAN LOW 값이 **0.1~0.5V** 사이 → 데이터 **1** (Recessive)
-* 데이터 **0 (Dominant)**는 데이터 **1 (Recessive)**보다 우선순위가 높음
+* 데이터 **0 (Dominant)** 는 데이터 **1 (Recessive)** 보다 **우선순위가 높음**
     - 여러 제어기에서 동시에 0과 1을 출력한다면, 버스에는 0 (Dominant)이 출력
-    - 1번 제어기 : 데이터 0 출력, 2~4번 제어기 : 데이터 1 출력 → 버스 전체는 데이터 0 출력
-        
+    - 1번 제어기 : 데이터 0 출력, 2~4번 제어기 : 데이터 1 출력 → 버스 전체는 데이터 0 출력  
+    <br>
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image 5.png" style="width:70%;" />
+    </div>
+    <p align="center"><strong>0 (Dominant) & 1 (Recessive)</strong></p>
+
 * CAN 통신은 **전압 차이**를 사용하므로, **동일한 노이즈가 두 전선에 발생해도 신호 왜곡이 적음**  
 → CAN HIGH와 LOW에 각각 +3V의 노이즈 발생해도 전압 차는 동일하므로 데이터 해석에 영향 없음
 * **꼬인 전선** 사용 : 전선을 꼬아 배치하면 노이즈가 골고루 분포되어 더욱 안정적인 통신이 가능  
@@ -71,6 +98,11 @@ title: "CAN(Controller Area Network) 기초개념"
 
 * **제어기**: 자동차 내부의 각종 전자 장치(조향장치, 브레이크, 에어백, 엔진 등)를 제어하는 하드웨어로 외부 손상 방지를 위해 케이스에 포장되어 자동차 내부에 장착
 * **MCU** : 제어기의 핵심 소자로, 작은 컴퓨터 역할을 수행, CPU, 메모리 다양한 주변 HW 장치 (Peripheral)이 포함됨
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 6.png" style="width:55%;" />
+</div>
+<p align="center"><strong>제어기 & MCU</strong></p>
 
 - **CAN Controller (Data Link Layer)**
     - **MCU** 내부에 존재하는 **CAN 통신과 관련된 Peripheral**
@@ -95,6 +127,11 @@ title: "CAN(Controller Area Network) 기초개념"
             - **CAN HIGH/LOW의 전압을 읽고, 이를 0/1로 변환**하여 CAN 컨트롤러에 전달.
     - MCU 내부의 Peripheral이 아닌 별도의 부품으로 존재 (TJA-1043 (NXP Semiconductors) 등)
     - 트랜시버 제어(슬립 모드, 노멀 모드, 리슨 온리 모드)가 필요 → 데이터시트 참조
+    <br>
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image 7.png" style="width:70%;" />
+    </div>
+    <p align="center"><strong>CAN Controller & CAN Tranceiver</strong></p>
 
 ### 통신 속도 Baud Rate
 
@@ -103,7 +140,17 @@ title: "CAN(Controller Area Network) 기초개념"
 * 자동차 개발 시 Baud Rate는 OEM에서 결정하며, 이 정보는 **CAN DB**에 포함
 * CAN 프로토콜은 크게 **Low-Speed CAN, High-Speed CAN, CAN FD** 3가지 종류로 나뉘며, 각 프로토콜 별로 최대속도의 차이가 있음
 * 일반적으로 **High-Speed CAN**은 **최대 1Mbps를 지원**하며, 보통 **500kbps**로 설정
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 8.png" style="width:60%;" />
+</div>
+
 * 통신 속도(Baud Rate)가 빠를수록 전기 신호의 전파 시간 문제로 인해 버스의 최대 길이가 짧아짐
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 9.png" style="width:60%;" />
+</div>
+
 * 메시지 전송 시, 송신자가 수신자로부터 (1 bit time 이내) 확인 응답(ACK)을 받아야 하므로, 신호의 왕복 시간이 중요  
 → 통신속도가 너무 빠르면 신호 왕복이 완료되기 전에 송신자가 다음 작업을 시작해 문제 발생
 
@@ -117,21 +164,41 @@ title: "CAN(Controller Area Network) 기초개념"
     - 1비트는 여러 Time Quanta로 구성되며, 이를  통해 Sync, TSEG1, TSEG2의 길이 설정
     - 예: CAN 클럭 주파수가 100Hz라면, 타임컨터는 1/100초(0.01초)
     - Baud Rate이 1bps의 경우, 1bit가 1초 이며, 이때 CAN 컨트롤러의 클럭 주파수가 10Hz의 경우, 1bit가 10 Time Quanta로 이루어짐
+    <br>
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image 10.png" style="width:50%;" />
+    </div>
+
     1. **Sync Segment (싱크 구간)**: 시작 구간, 항상 고정된 길이(1 Time Quanta)
     2. **TSEG1 (Time Segment 1)**: 샘플링 포인트 이전의 구간
-        - Propagation Time과 Phase Segment 1로 구성.
     3. **TSEG2 (Time Segment 2)**: 샘플링 포인트 이후의 구간
+    - Propagation Time과 Phase Segment 1로 구성.
     - 샘플링 포인트는 TSEG1과 TSEG2의 비율로 결정
     - 예: 샘플링 포인트가 70%라면 TSEG1:TSEG2 비율은 7:3으로 설정
 * 공급되는 클락의 속도가 오차 있을 때(Sync Segment 일치 여부로 판단), **TSEG1, TSEG2의 bit 길이를 조절**하여 메시지 송,수신 간 CAN Controller의 CAN 클럭 **싱크를 맞춤**
     - 길이 조절의 최대양(**SJW: Synchronization Jump Width**)은 OEM이 정해 놓는 경우가 많음  
 
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 11.png" style="width:65%;" />
+</div>
+
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 12.png" style="width:65%;" />
+</div>
+
 ---
+
 ### 메시지 ID
 
 * CAN에서 모든 메시지 전송은 **브로드캐스트(Broadcast)** 방식, 즉, 한 제어기에서 **메시지**를 보내면 그 메시지는 네트워크에 연결된 모든 제어기로 전송됨
 * 브로드캐스트 방식에서 메시지를 **보내는 제어기**와 **받는 제어기**의 정보가 포함되지 않기 때문에, 수신 제어기는 메시지를 보낸 제어기를 알 수 없음 → 이를 구분하기 위해 **메시지 ID** 사용
 * **메시지 ID**는 각 메시지를 식별할 수 있도록 **고유**하게 부여되는 값으로, CAN 네트워크에서 메시지를 보낼 때 사용됨
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 13.png" style="width:70%;" />
+</div>
+<p align="center"><strong>메세지 ID</strong></p>
 
 ### CAN 데이터베이스 (CAN DB)
 
@@ -144,6 +211,10 @@ title: "CAN(Controller Area Network) 기초개념"
     - **Standard Format** : 11비트
     - **Extended Format** : 29비트
 
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 14.png" style="width:40%;" />
+</div>
+
 * BMS 제어기는 `0x123` ID의 메시지를 보내고, 엔진 제어기는 `0x500` ID의 메시지를 보내는 식으로, 각 제어기마다 고유한 ID를 부여하여 다른 제어기들이 이를 식별할 수 있음. 수신 제어기는 컨셉상 명시 (브로드캐스트로 모든 제어기에서 수신)
 
 ### 메시지 우선 순위
@@ -153,6 +224,11 @@ title: "CAN(Controller Area Network) 기초개념"
   → **ID 값이 작을수록 우선순위가 높음 (123>134>154>201), 즉 ID를 16진수로 변환하였을때 1(Regressive)이 먼저 등장**
     - **버스에 통신 되는 메세지가 없을 때** 우선순위가 높은 메시지가 먼저 보내지고, 우선순위가 낮은 메시지는 대기 → **Arbitration** (중재)
     - CAN에서는 0 (Dominant)이 더 우선순위가 높고, 1 (Recessive)은 상대적으로 우선순위가 낮음
+    <br>
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part1/image 15.png" style="width:70%;" />
+    </div>
+
     - CAN Controller는 자기가 신호를 보낸 후 Bus에 있는 신호를 읽어 실제로 보낸 신호가 인가 되었는지 확인. 이때 1(Recessive)을 보냈는데 Bus에 0(Dominent) 이 있다는 것을 인지하면 송신 대기, 0(Dominent)가 보내지면 1(Recessive) 가 덮어쓰기 되는 느낌? (0의 우선순위가 더 높음)
         
 
@@ -171,6 +247,12 @@ title: "CAN(Controller Area Network) 기초개념"
 * CAN 메시지는 **최대 8바이트의 데이터**를 담을 수 있으며, **Data영역**에 시그널의 정보가 담김
 * **DLC(Data Length Code)** 는 데이터의 길이를 나타내며, 메시지 안에서 실제로 데이터를 몇 바이트를 보낼 것인지 표시, **Control영역**에 정보 담김 → 데이터가 8바이트이면 DLC 값은 8로 설정 
 (DL0 DL1 DL2 DL3  = 0 1 0 0)
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part1/image 15.png" style="width:70%;" />
+</div>
+<p align="center"><strong>메세지 ID</strong></p>
+
 * CAN 메세지를 나타내는 영역 중 Arbitration Field(11) Control(4) CRC(15) 의 숫자 단위는 각각 bit 며 **Data(8)의 8의 단위만 byte** 
 * 메시지마다 **어떤 시그널**이 들어 있는지, 시그널의 **위치** 및 **길이**는 **CAN DB**에 저장됨
 * 이 정보는 **CAN DB**에 **Start bit**와 **Length** 형태로 기록
