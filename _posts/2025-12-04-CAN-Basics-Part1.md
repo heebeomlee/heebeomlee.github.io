@@ -267,7 +267,7 @@ title: "CAN(Controller Area Network) 기초개념 PART1"
 
 * **실수형 데이터**를 CAN으로 전송할 때, **부동소수점(실수) 형태 (Float Type = 4byte)** 그대로 보내면 데이터 크기가 커짐 **(CAN 최대 데이터 = 8byte)**, Bus Load 관리를 위해 데이터의 크기를 줄이는 것이 중요  
 → 이를 줄이기 위한 방법으로 **Factor**와 **Offset** 활용
-* Factor는 **데이터의 정밀도**(소수 몇 째 자리까지 표현), Offset은 **음수**를 표현할 때와 관련 있음
+* Factor는 **데이터의 정밀도**(소수 몇 째 자리까지 표현, 데이터를 표현하는 최소 단위), Offset은 **음수**를 표현할 때와 관련 있음
 * 예시로, 배터리 전압을 12.4V (실수형-4byte) 보내고 싶을 때:
     1. Factor : 0.1 , Offset : 0
     2. 12.4에서 Offset을 빼고, Factor로 나누면 124
