@@ -93,3 +93,67 @@ title: "CAN(Controller Area Network) 기초개념 PART2"
 
 ---
 
+### CANFD (Flexible Data-rate)
+
+* **도입 배경**
+    - CAN 통신 프로토콜은 크게 Low-Speed CAN, High-Speed CAN, CAN FD로 구분
+    - 기존 High-Speed CAN 통신과 같은 네트워크에서 **호환(사용) 가능**하면서 High-Speed CAN의 **낮은 BaudRate**와 **작은 데이터 영역** 의 한계 보완
+
+* **특징**
+    - 데이터 영역 크기 및 BaudRate 증가
+        - High-Speed CAN: 최대 **8바이트 (1Mbps)**
+        - CAN FD: 최대 **64바이트 (8Mbps)**
+    - 메세지 전체 영역이 아닌 **데이터 영역**에서만 **빠른 Baudrate**이 적용
+        - **Arbitration Baudrate**: 데이터 영역 외 구간에서의 Baudrate
+        - **Data Baudrate**: 데이터 영역에서의 Baudrate
+    - **샘플링 포인트**도 Baudrate에 따라 별도로 설정 필요
+    - 같은 네트워크에서 CAN FD와 High-Speed CAN를 함께 사용 가능하며 이를 위해 High-Speed CAN과 CAN FD를 모두 지원하는 트랜시버가 필요
+        - ex. TJA1043 트랜시버
+    - 데이터 영역의 Baudrate에 따라 **종단 저항 크기가 달라질 수 있음** (통신속도에 따른 임피던스 따라 저항 크기 결정)
+    - DLC(Data Length Code)는 메세지내 데이터 영역의 크기를 나타내는 필드이며 **4bit로 표현**  
+    → 4bit DLC만으로는 CAN FD의 실제 데이터 길이(최대 64바이트)를 표현할 수 없으므로 CAN FD에서는 확장된 데이터 길이를 표현할 수 있도록 DLC값을 아래와 같이 재정의하여 사용
+    - 이외에도 CAN FD는 CRC 필드 계산 방식 및 길이, Control 필드 구성 등 메시지 포맷이 High-Speed CAN과 일부 다르게 정의
+    <br>
+    <div style="text-align:center;">
+        <img src="../images/2025-12-04-CAN-Basics-Part2/2025-12-10-10-39-40.png" style="width:55%;" />
+    </div>
+    <p align="center"><strong>CANFD DLC</strong></p>
+
+* ※ **Low-Speed CAN**
+    - 최대 125kbps Baudrate 지원
+    - CAN HIGH와 CAN LOW 전선 중 하나가 끊어져도 통신 가능
+    - 버스 양 끝단에 120옴 저항을 사용하지 않고, 각 제어기 CAN HIGH, CAN LOW 전선에 개별 저항이 달림
+    - 현재 **거의 사용되지 않음**
+
+### CAN DB & CAN DBC
+* **CAN DB**(Communication Matrix, K-Matrix): CAN 네트워크와 관련된 필수 정보를 포함한 데이터베이스
+* **CAN DBC**: 벡터(Vector)라는 독일 회사에서 만든 **CAN DB를 저장하는 파일 형식(확장자)**
+    - 벡터(Vector)사의 **CANdb++ Editor**를 활용하여 CAN DBC 작성 가능
+* **포함 주요 정보**
+    - **메시지 ID**: 네트워크에서 사용되는 각 메시지의 고유 ID
+    - **메시지 이름**: 각 메시지의 식별 이름
+    - **데이터 길이**: 메시지 데이터 영역의 길이
+    - **송수신 제어기 정보**:
+        - 메시지를 송신하는 제어기
+        - 메시지를 수신하는 제어기
+    - **메시지 전송 방식**:
+        - 주기적으로 메시지를 전송하는 방식 (Send Type: Periodic)
+        - 메세지 내 특정 시그널값이 변경될 때만 메시지를 전송하는 방식 (Send Type: On Change)
+    - **메시지 내 시그널 정보**:
+        - 시그널의 위치, 크기, 팩터, 오프셋 정보
+        - 데이터 영역에서 시그널의 배치와 크기
+    - 그외 **CAN 프로토콜 정의**(High-Speed CAN, CAN FD), **Baudrate**, **Sampling Time** 등을 포함
+
+### CANoe
+* CANoe는 Vector사가 개발한 소프트웨어로, CAN 네트워크 분석, 시뮬레이션, 검증 작업에 활용
+* PC에는 CAN Controller가 내장되어 있지 않아 CAN 통신이 불가능하며, CANoe와 같은 네트워크 인터페이스 장비를 통해 CAN 네트워크와 PC간 통신을 가능하게 함
+* 주요 기능
+    - **CAN 메시지 로깅 및 분석**: 네트워크에서 주고받는 메시지를 실시간으로 기록하고 분석 (DBC 파일 임포트)
+    - **가상 제어기 시뮬레이션**: 가상의 제어기(네트워크)를 만들어 CAN 메시지를 송신해 제어기 테스트
+    - **버스 로드 측정**
+    - **에러 프레임 감지**
+<br>
+<div style="text-align:center;">
+    <img src="../images/2025-12-04-CAN-Basics-Part2/2025-12-10-11-17-03.png" style="width:65%;" />
+</div>
+<p align="center"><strong>CANoe</strong></p>
