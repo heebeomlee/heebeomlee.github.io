@@ -31,16 +31,18 @@ title: "Feedback Linearization of Nonlinear Systems"
 
 #### <U>Q. Is it always possible to obtain FB linearization?</U> ####
 * If the nonlinear system is represented by the following particular structure → **YES**
+<br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/Image 1.png" style="width:20%;" />
 </div>
 
 * By taking the following control law, we can utilize any standard contol technique for linear system (e.g. state feedback control law), where A and B must be *controllable*
     - Hurwitz : matrix where all eigen values are in the left half s-plane  
+<br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/Image 2.png" style="width:25%;" />
 </div>
-
+<br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/Image 3.png" style="width:60%;" />
 </div>
@@ -54,8 +56,6 @@ title: "Feedback Linearization of Nonlinear Systems"
 
 #### <U>Q. Does there always exist such a transform?</U> ####
 #### <U>Q. If such a transformation exists, then how to find it?</U> ####
-
-
 
 #### Full state linearization and input-output linearization? #### 
 → *Stabiliztion problem* : Design control law such that all the **state variables** converge to the equilibrium point  
