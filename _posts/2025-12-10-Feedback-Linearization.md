@@ -5,17 +5,30 @@ title: "Feedback Linearization of Nonlinear Systems"
 > Reference : https://www.youtube.com/playlist?list=PL9s6YpaXIcJvitrw3aOOeNKycTrr3QBGW 
 
 ### Preliminary
-* Lie Derviative
+* **<U>Lie Derviative</U>**
+<div style="text-align:center;">
+    <img src="../images/2025-12-10-Feedback-Linearization/2025-12-11-16-34-03.png" style="width:55%;" />
+</div>
+
+* **Lie Bracket**
+<div style="text-align:center;">
+    <img src="../images/2025-12-10-Feedback-Linearization/2025-12-11-16-45-34.png" style="width:55%;" />
+</div>
+
+* **<U>Relative Degree</U>**
+<div style="text-align:center;">
+    <img src="../images/2025-12-10-Feedback-Linearization/2025-12-11-16-35-55.png" style="width:55%;" />
+</div>
+
+---
 
 ### Feedback Linearization
 * Powerful technique to design controllers for *nonlinear* systems
 * Unlike nonlinear control theory, linear control theory is well developed with systematic approaches  
- → <U>Goal: somehow obtain linear representation of a nonlinear system</U>
-    - *Jacobian Linearization* approximates a nonlinear function to a linear function  
-    → only valid near equilibrium point (higher order terms are neglected)
-    - *Feedback linearization* is an <U>exact linearization</U> of a nonlinear system  
+ → <U>**Goal: somehow obtain linear representation of a nonlinear system**</U>
+    - *Jacobian Linearization* : approximation w.r.t operating point
+    - *Feedback linearization* : <U>exact linearization</U> of a nonlinear system  
     → Different state space representation using new state variable  
-    → No approximations
 
 ---
 
@@ -37,19 +50,16 @@ title: "Feedback Linearization of Nonlinear Systems"
 </div>
 
 * By taking the following control law, we can utilize any standard contol technique for linear system (e.g. state feedback control law), where A and B must be *controllable*
-    - Hurwitz : matrix where all eigen values are in the left half s-plane  
-<br>
+    - *Hurwitz* : matrix where all eigen values are in the left half s-plane  
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 2.png" style="width:25%;" />
 </div>
-<br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 3.png" style="width:60%;" />
 </div>
 
 #### <U>Q. What if the system is not in that form?</U> ####
-→ Define a *State Transformation* to bring the system in the desired form
-<br>
+→ Define a ***State Transformation*** to bring the system in the desired form
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 4.png" style="width:55%;" />
 </div>
@@ -57,7 +67,7 @@ title: "Feedback Linearization of Nonlinear Systems"
 #### <U>Q. Does there always exist such a transform?</U> ####
 #### <U>Q. If such a transformation exists, then how to find it?</U> ####
 
-#### Full state linearization and input-output linearization? #### 
+#### <U>Q. Full state linearization and input-output linearization?</U> #### 
 → *Stabiliztion problem* : Design control law such that all the **state variables** converge to the equilibrium point  
 → *Tracking problem* : Design control law such that the controlled **output** tracks a reference signal
 <br>
