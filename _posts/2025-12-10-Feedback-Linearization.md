@@ -10,14 +10,33 @@ title: "Feedback Linearization of Nonlinear Systems"
     <img src="../images/2025-12-10-Feedback-Linearization/2025-12-11-16-34-03.png" style="width:55%;" />
 </div>
 
-* **Lie Bracket**
+* **<U>Lie bracket</U>**  
+→ ad (adjoint) : Another notion for Lie bracket. Useful when we have to repeatly compute Lie bracket of a particular vector field
 <div style="text-align:center;">
-    <img src="../images/2025-12-10-Feedback-Linearization/2025-12-11-16-45-34.png" style="width:55%;" />
+    <img src="../images/2025-12-10-Feedback-Linearization/2025-12-12-10-19-49.png" style="width:55%;" />
 </div>
 
-* **<U>Relative Degree</U>**
+* **<U>Involutive Distribution</U>**  
+→ *Span* of vectors : All the vectors which can be obtained by linear combination of particular vectors (= Distribution)  
+→ If we cannot get f1 by any scalar multiplication of f2, f1 and f2 is independant from each other  
+→ Zero vectors is always linearly dependent on any other vector field  
+→ It is an *involutive distribution* when *Lie bracket* of certain two vectors is also included in the distribution of two vectors  
+→ if we have to check involutive for 3 vectors f1, f2, f3, we have to compute Lie brackets for all capable pairs and check rank
+<div style="text-align:center;">
+    <img src="../images/2025-12-10-Feedback-Linearization/2025-12-12-10-32-07.png" style="width:55%;" />
+</div>
+
+* **<U>Relative Degree</U>**  
+→ n : number of states  
+→ Relative degree is *not well defined* when u doesn't appear after n(number of states) derivatives
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/2025-12-11-16-35-55.png" style="width:55%;" />
+</div>
+
+* **<U>Diffeomorphism</U>**  
+→ Diffeomorphism : inverse transformation exists, and both transfromation and inverse transformations are smooth functions
+<div style="text-align:center;">
+    <img src="../images/2025-12-10-Feedback-Linearization/2025-12-12-10-15-13.png" style="width:55%;" />
 </div>
 
 ---
@@ -50,7 +69,7 @@ title: "Feedback Linearization of Nonlinear Systems"
 </div>
 
 * By taking the following control law, we can utilize any standard contol technique for linear system (e.g. state feedback control law), where A and B must be *controllable*
-    - *Hurwitz* : matrix where all eigen values are in the left half s-plane  
+    - Design of feedback gain K so that (A-BK) is Hurwitz. (*Hurwitz* : matrix where all eigen values are in the left half s-plane)  
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 2.png" style="width:25%;" />
 </div>
@@ -84,11 +103,11 @@ title: "Feedback Linearization of Nonlinear Systems"
 ---
 
 #### Full State Linearization ####
-* We want all the state equations to be linearized for *Stabilization problem*  
+* We want all the *state equations* to be linearized for *Stabilization problem*  
 *cf.* Input-output linearization : Relation between input and output of the system to be linear for  *Tracking problem*  
-    1. Consider nonlinear system described by following equations
+    1. Consider SISO nonlinear system described by following equations
     2. If **rho (relative degree) = n (dimenstion of state vector)**, we can utilize **state transformation T(x)** to transfrom the nonlinear system in to normal form → obtain full state linearization
-    3. It is demonstrated that transformation T(x) is diffemorphism (inverse transformation exsists, and both transfromation and inverse transformations are smooth functions)
+    3. It is demonstrated that transformation T(x) is diffemorphism (inverse transformation exists, and both transfromation and inverse transformations are smooth functions)
 <br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 7.png" style="width:55%;" />
@@ -104,7 +123,7 @@ title: "Feedback Linearization of Nonlinear Systems"
 #### Full state linearization *when rho is less than n* ####
 * How to obtain an exact linearization of a nonlinear system if relative degree is less than n ?
 * Full state linearization problem is important when solving *stabilization* problem
-* In *stabilization* problem, output equation is less important  
+* In *stabilization* problem, output equation is less important (cf. LQR-stabilization vs MPC-tracking)  
 → we only want the state variables to converge to equilbrium point  
 → Define dummy output y or h(x) such that rho=n → perform full state linearization for rho=n
 <br>
@@ -113,18 +132,22 @@ title: "Feedback Linearization of Nonlinear Systems"
 </div>
 
 #### <U>Q. Does there exsist an h(x) ?</U> ####
-* To check whether a system is feedback linearizable or not, that is there exists h(x) corresponding to which relative degree is equal to n, you need to check *one of these two conditions* (equilivant conditions)
+* To check whether a system is feedback linearizable or not, that is there exists h(x) corresponding to which relative degree is equal to n, you need to check ***one*** of these two conditions (equilivant conditions)  
+※ Compute *determinent* to check the rank of matrix (determinent non-zero = full rank)  
 <br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 21.png" style="width:55%;" />
 </div>
-    
-#### <U>Q. How to find that ?</U> ####
-* To find h(x), f***rom definition of relative degree,*** derive guideline to deterimine h(x) and select the simplist form
+
+* Example : 
 <br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 22.png" style="width:55%;" />
 </div>
+    
+#### <U>Q. How to find that ?</U> ####
+* To find h(x), ***from definition of relative degree,*** derive guideline to deterimine h(x) and select the simplist form
+<br>
 <div style="text-align:center;">
     <img src="../images/2025-12-10-Feedback-Linearization/image 23.png" style="width:55%;" />
 </div>
@@ -135,28 +158,27 @@ title: "Feedback Linearization of Nonlinear Systems"
 ---
 
 ### Input-Output Linearization
-* ***Full-State Linearization (rho = n)***
-    - rho = n → ***Input-Output Linearization is satisfied***
-    1. System is both *full state linearized* (all the state equations are linear) as well as *input-output linearized* (relationship between newly defined input v and output variable is linear) 
-    2. If relative degree is equal to n, given state transfromation will not only give you full-state linearization but also input-output linearization
+* ***Input-Output Linearization (rho = n)***
+    - Full-State Linearization(rho = n) → ***Input-Output Linearization is satisfied***
+    - System is both *full state linearized* (all the state equations are linear) as well as *input-output linearized* (relationship between newly defined input v and output variable is linear) 
+    - If relative degree is equal to n, given state transfromation T(x) will not only give you full-state linearization but also input-output linearization
     <br>
     <div style="text-align:center;">
         <img src="../images/2025-12-10-Feedback-Linearization/image 28.png" style="width:55%;" />
     </div>
 
 * ***Input-Output Linearization (rho < n)***
-    1. If rho < n, phi always exists at least locally sich that T(x) is a diffemorphism
-    2. Dimension of  state transformation T(x) : n-rho, rho for phi, eta respectively. T(x) has total dimension of n 
-    3. The given transformation will transform the nonlinear system into normal form including internal dynamics
-    4. Reference for matrix Ac, Bc, Cc are listed in Study-Full Feedback Linearization (important!)
+    1. The given transformation will transform the nonlinear system into *normal form* including *internal dynamics*
+    2. If rho < n, phi always exists at least locally such that T(x) is a diffemorphism (Theorem 13.1, Khalil)
+    3. Dimension of  state transformation T(x) : n-rho, rho for phi, eta respectively. T(x) has total dimension of n 
+    4. Reference for matrix Ac, Bc, Cc are listed in Full State Linearization  
+    5. There are additional state variables which does not appear in input-output relation which are called internal dynamics. State variables of internal dynamics does not affect the output
+    6. In addition to solving the trackng problem, we must ensure that the internal dynamics are also stable
     <br>
     <div style="text-align:center;">
         <img src="../images/2025-12-10-Feedback-Linearization/image 29.png" style="width:55%;" />
     </div>
 
-    1. There are additional state variables which does not appear in input-output relation which are called internal dynamics. State variables of internal dynamics does not affect the output
-    2. In addition to solving the trackng problem, we must ensure that the internal dynamics are also stable
-    
 * **Proof that transformation T(x) brings the nonlinear system in to normal form**
     <br>
     <div style="text-align:center;">
@@ -166,10 +188,10 @@ title: "Feedback Linearization of Nonlinear Systems"
    
 * **Internal Dynamics, Zero Dynamics**
 
-    * If zero dynamics are not stable, we need not perform input-output linearization because that will not be useful (states go unbounded)
+    * If zero dynamics are not stable, we need *not* perform input-output linearization because that will not be useful (states go unbounded)
         1. Zero dynamics : replace zhi with 0
         2. By confirming the stabilzation of zero dynamics (variable: eta), we can ensure closed loop stability of internal dynamic. (stabilization of zhi is already ensured using designed control input v)
-        3. We can vertify the stability of zero dynamics using layapunov theory, or by observation
+        3. We can vertify the stability of zero dynamics using *layapunov theory*, or by *observation*
     <br>
     <div style="text-align:center;">
         <img src="../images/2025-12-10-Feedback-Linearization/image 37.png" style="width:55%;" />
